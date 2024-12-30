@@ -5,10 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div id="app">
-        <h1>{{ message }}</h1>
+      <div class="grid">
+        <div v-for="(row, rowIndex) in grid" :key="rowIndex">
+          <div
+            v-for="(cell, colIndex) in row"
+            :key="`${rowIndex}-${colIndex}`"
+            class="cell"
+          >
+            <span>{{ cell }}</span>
+          </div>
+        </div>
+      </div>
     </div>
     <script src="script.js"></script>
   </body>
