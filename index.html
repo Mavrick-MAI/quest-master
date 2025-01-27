@@ -3,13 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vue Grid and Arrows</title>
+  <title>Quest Master</title>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="https://unpkg.com/vuex@4.0.2/dist/vuex.global.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app"></div>
-  <script type="module" src="main.js"></script>
+
+  <button id="newGameButton" onclick="createGrid(10)">Nouvelle partie</button>
+  <div id="grid"></div>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
