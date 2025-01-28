@@ -5,6 +5,7 @@ let grid;
 let player;
 let treasurePosition;
 let gridSize = 10;
+let gameFinished = false;
 
 // Création d'une partie au chargement de la page
 let body = document.getElementById("body");
@@ -76,32 +77,34 @@ function generateCharacter() {
 
 // Déplacement des entités
 function moveCharacter(direction) {
-  let newX;
-  let newY;
+  if (!gameFinished) {
+    let newX;
+    let newY;
 
-  switch (direction) {
-    case "TOP":
-      newX = parseInt(player.x) - 1;
-      newY = parseInt(player.y);
-      break;
-    case "LEFT":
-      newX = parseInt(player.x);
-      newY = parseInt(player.y) - 1;
-      break;
-    case "DOWN":
-      newX = parseInt(player.x) + 1;
-      newY = parseInt(player.y);
-      break;
-    case "RIGHT":
-      newX = parseInt(player.x);
-      newY = parseInt(player.y) + 1;
-      break;
-  }
+    switch (direction) {
+      case "TOP":
+        newX = parseInt(player.x) - 1;
+        newY = parseInt(player.y);
+        break;
+      case "LEFT":
+        newX = parseInt(player.x);
+        newY = parseInt(player.y) - 1;
+        break;
+      case "DOWN":
+        newX = parseInt(player.x) + 1;
+        newY = parseInt(player.y);
+        break;
+      case "RIGHT":
+        newX = parseInt(player.x);
+        newY = parseInt(player.y) + 1;
+        break;
+    }
 
-  // vérifie les limites de la grille
-  if (newX >= 0 && newX < gridSize && newY >= 0 && newY < gridSize) {
-    player.move(direction);
-    checkPlayerCell();
+    // vérifie les limites de la grille
+    if (newX >= 0 && newX < gridSize && newY >= 0 && newY < gridSize) {
+      player.move(direction);
+      checkPlayerCell();
+    }
   }
 }
 
@@ -125,12 +128,12 @@ document.addEventListener("keyup", (event) => {
 
 // vérifie la cellule du joueur (présence du trésor ou d'un monstre)
 function checkPlayerCell() {
+  let actionHistory = document.getElementById("actionHistory");
 
-    let actionHistory = document.getElementById("actionHistory");
-
-    if (treasurePosition.x === player.x && treasurePosition.y === player.y) {
-        let victoryMessage = document.createElement("p");
-        victoryMessage.textContent = "VICTORY";
-        actionHistory.append(victoryMessage);
-    }
+  if (treasurePosition.x === player.x && treasurePosition.y === player.y) {
+    let victoryMessage = document.createElement("p");
+    victoryMessage.textContent = "VICTORY";
+    actionHistory.append(victoryMessage);
+    gameFinished = true;
+  }
 }
