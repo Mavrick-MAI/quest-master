@@ -36,7 +36,8 @@ class Player extends Character {
         }
     
         newCell = document.querySelector('div[data-x="' + newX + '"][data-y="' + newY + '"]');
-        newCell.append(oldCell.firstChild);
+        newCell.innerHTML = oldCell.innerHTML;
+        oldCell.innerHTML = '';
     }
 }
 
