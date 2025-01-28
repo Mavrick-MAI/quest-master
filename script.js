@@ -15,8 +15,20 @@ body.onload = createGrid(gridSize);
 let newGameButton = document.getElementById("newGameButton");
 newGameButton.addEventListener("click", () => createGrid(gridSize));
 
+// Affecte les actions de déplacement au boutons
+let topButton = document.getElementById("topButton");
+topButton.addEventListener("click", () => moveCharacter("TOP"));
+let leftButton = document.getElementById("leftButton");
+leftButton.addEventListener("click", () => moveCharacter("LEFT"));
+let downButton = document.getElementById("downButton");
+downButton.addEventListener("click", () => moveCharacter("DOWN"));
+let rightButton = document.getElementById("rightButton");
+rightButton.addEventListener("click", () => moveCharacter("RIGHT"));
+
 // Fonction de création de la grille du jeu
 function createGrid(pGridSize) {
+  gameFinished = false;
+
   // Vide la grille si elle existe déjà
   grid = document.getElementById("grid");
   while (grid.lastElementChild) {
@@ -25,16 +37,6 @@ function createGrid(pGridSize) {
 
   // Génére les entités de la partie
   generateCharacter();
-
-  // Affecte les actions de déplacement au boutons
-  let topButton = document.getElementById("topButton");
-  topButton.addEventListener("click", () => moveCharacter("TOP"));
-  let leftButton = document.getElementById("leftButton");
-  leftButton.addEventListener("click", () => moveCharacter("LEFT"));
-  let downButton = document.getElementById("downButton");
-  downButton.addEventListener("click", () => moveCharacter("DOWN"));
-  let rightButton = document.getElementById("rightButton");
-  rightButton.addEventListener("click", () => moveCharacter("RIGHT"));
 
   // Création de la grille
   let newCell;
