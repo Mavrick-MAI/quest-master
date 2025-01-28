@@ -11,15 +11,6 @@ body.onload = createGrid(10);
 let newGameButton = document.getElementById("newGameButton");
 newGameButton.addEventListener("click", () => createGrid(10));
 
-let topButton = document.getElementById("topButton");
-topButton.addEventListener("click", () => movePlayer("TOP"));
-let leftButton = document.getElementById("leftButton");
-leftButton.addEventListener("click", () => movePlayer("LEFT"));
-let downButton = document.getElementById("downButton");
-downButton.addEventListener("click", () => movePlayer("DOWN"));
-let rightButton = document.getElementById("rightButton");
-rightButton.addEventListener("click", () => movePlayer("RIGHT"));
-
 function createGrid(gridSize) {
     
     grid = document.getElementById("grid");
@@ -28,6 +19,15 @@ function createGrid(gridSize) {
     }
 
     generateCharacter();
+
+    let topButton = document.getElementById("topButton");
+    topButton.addEventListener("click", () => player.move("TOP"));
+    let leftButton = document.getElementById("leftButton");
+    leftButton.addEventListener("click", () => player.move("LEFT"));
+    let downButton = document.getElementById("downButton");
+    downButton.addEventListener("click", () => player.move("DOWN"));
+    let rightButton = document.getElementById("rightButton");
+    rightButton.addEventListener("click", () => player.move("RIGHT"));
 
     let newCell;
     for (let i = 0; i < gridSize; i++) {
@@ -48,37 +48,4 @@ function createGrid(gridSize) {
 function generateCharacter() {
 
     player = new Player(Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), 20, 5);
-}
-
-function movePlayer(direction) {
-
-    let oldCell = document.getElementById("playerIcon").parentElement;
-    let oldX = oldCell.dataset.x;
-    let oldY = oldCell.dataset.y;
-
-    let newCell;
-    let newX;
-    let newY;
-
-    switch (direction) {
-        case "TOP":
-            newX = parseInt(oldX) - 1;
-            newY = parseInt(oldY);
-            break;
-        case "LEFT":
-            newX = parseInt(oldX);
-            newY = parseInt(oldY) - 1;
-            break;
-        case "DOWN":
-            newX = parseInt(oldX) + 1;
-            newY = parseInt(oldY);
-            break;
-        case "RIGHT":
-            newX = parseInt(oldX);
-            newY = parseInt(oldY) + 1;
-            break;
-    }
-
-    newCell = document.querySelector('div[data-x="' + newX + '"][data-y="' + newY + '"]');
-    newCell.append(oldCell.firstChild);
 }
