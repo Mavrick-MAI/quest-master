@@ -101,6 +101,7 @@ function moveCharacter(direction) {
   // vérifie les limites de la grille
   if (newX >= 0 && newX < gridSize && newY >= 0 && newY < gridSize) {
     player.move(direction);
+    checkPlayerCell();
   }
 }
 
@@ -121,3 +122,15 @@ document.addEventListener("keyup", (event) => {
       break;
   }
 });
+
+// vérifie la cellule du joueur (présence du trésor ou d'un monstre)
+function checkPlayerCell() {
+
+    let actionHistory = document.getElementById("actionHistory");
+
+    if (treasurePosition.x === player.x && treasurePosition.y === player.y) {
+        let victoryMessage = document.createElement("p");
+        victoryMessage.textContent = "VICTORY";
+        actionHistory.append(victoryMessage);
+    }
+}
