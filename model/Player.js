@@ -38,6 +38,9 @@ class Player extends Character {
         newCell = document.querySelector('div[data-x="' + newX + '"][data-y="' + newY + '"]');
         newCell.innerHTML = oldCell.innerHTML;
         oldCell.innerHTML = '';
+
+        this.x = newX;
+        this.y = newY;
     }
 }
 
