@@ -5,6 +5,8 @@ let grid;
 let player;
 let treasurePosition;
 let gridSize = 10;
+let entityNumber;
+let listEntityPosition;
 let gameFinished = false;
 
 // Création d'une partie au chargement de la page
@@ -36,7 +38,8 @@ function createGrid(pGridSize) {
   }
 
   // Génére les entités de la partie
-  generateCharacter();
+  entityNumber = Math.floor(Math.random() * (50 - 11) + 10);
+  generateCharacter(entityNumber);
 
   // Création de la grille
   let newCell;
@@ -51,8 +54,9 @@ function createGrid(pGridSize) {
         newCell.innerHTML =
           "<i id='playerIcon' class='fa-solid fa-person-walking fa-2xl'></i>";
       }
-      // Insertion du trésor dans la grille
-      if (i === treasurePosition.x && j === treasurePosition.y) {
+
+      // Insertion d'une entité dans la grille
+      if (listEntityPosition.find((item) => item.curX === i && item.curY === j)) {
         newCell.innerHTML =
           "<i class='fa-solid fa-exclamation fa-2xl interestIcon'></i>";
       }
@@ -62,19 +66,27 @@ function createGrid(pGridSize) {
 }
 
 // Génération des entités du jeu
-function generateCharacter() {
+function generateCharacter(pEntityNumber) {
   player = new Player(
     Math.floor(Math.random() * 10),
     Math.floor(Math.random() * 10),
     20,
     5
   );
-  do {
-    treasurePosition = {
-      x: Math.floor(Math.random() * 10),
-      y: Math.floor(Math.random() * 10),
-    };
-  } while (treasurePosition.x === player.x && treasurePosition.y === player.y);
+
+  let curX;
+  let curY;
+  listEntityPosition = [];
+  for (let i = 0; i < pEntityNumber; i++) {
+
+    do {
+      curX = Math.floor(Math.random() * 10);
+      curY = Math.floor(Math.random() * 10);
+    } while ((curX === player.x && curY === player.y) || listEntityPosition.find((item) => item.curX === curX && item.curY === curY))
+
+    listEntityPosition.push({curX, curY});
+
+  } 
 }
 
 // Déplacement des entités
@@ -132,10 +144,27 @@ document.addEventListener("keyup", (event) => {
 function checkPlayerCell() {
   let actionHistory = document.getElementById("actionHistory");
 
-  if (treasurePosition.x === player.x && treasurePosition.y === player.y) {
-    let victoryMessage = document.createElement("p");
-    victoryMessage.textContent = "VICTORY";
-    actionHistory.append(victoryMessage);
-    gameFinished = true;
+  if (listEntityPosition.find((item) => item.curX === player.x && item.curY === player.y)) {
+
+    let isTreasurePosition = Math.floor(Math.random() * (entityNumber) + 1);
+
+    if (isTreasurePosition === 1) {
+
+      let victoryMessage = document.createElement("p");
+      victoryMessage.textContent = "VICTORY";
+      actionHistory.append(victoryMessage);
+      gameFinished = true;
+    }
+
+    // supprime la position de l'entité dans la liste
+    const index = listEntityPosition.findIndex(
+      (item) => item.curX === player.x && item.curY === player.y
+    );
+    
+    if (index !== -1) {
+      listEntityPosition.splice(index, 1);
+    }
+
+    entityNumber--;
   }
 }
