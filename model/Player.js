@@ -2,8 +2,9 @@ import Character from './Character.js';
 
 class Player extends Character {
 
-    constructor(pX, pY, pHealth, pStrength) {
+    constructor(pX, pY, pClass, pHealth, pStrength) {
         super(pX, pY, pHealth, pStrength);
+        this.class = pClass;
     }
 
     move(direction) {

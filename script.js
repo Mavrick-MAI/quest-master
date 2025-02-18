@@ -38,7 +38,7 @@ function createGrid(pGridSize) {
   }
 
   // Génére les entités de la partie
-  entityNumber = Math.floor(Math.random() * (50 - 11) + 10);
+  entityNumber = Math.floor(Math.random() * (50 - 10) + 10);
   generateCharacter(entityNumber);
 
   // Création de la grille
@@ -67,12 +67,17 @@ function createGrid(pGridSize) {
 
 // Génération des entités du jeu
 function generateCharacter(pEntityNumber) {
+
   player = new Player(
     Math.floor(Math.random() * 10),
     Math.floor(Math.random() * 10),
     20,
     5
   );
+
+  do {
+    treasurePosition = { x : Math.floor(Math.random() * 10), y : Math.floor(Math.random() * 10)}
+  } while ((treasurePosition.x === player.x && treasurePosition.y === player.y))
 
   let curX;
   let curY;
@@ -82,7 +87,7 @@ function generateCharacter(pEntityNumber) {
     do {
       curX = Math.floor(Math.random() * 10);
       curY = Math.floor(Math.random() * 10);
-    } while ((curX === player.x && curY === player.y) || listEntityPosition.find((item) => item.curX === curX && item.curY === curY))
+    } while ((curX === player.x && curY === player.y) || (curX === treasurePosition.x && curY === treasurePosition.y) || listEntityPosition.find((item) => item.curX === curX && item.curY === curY))
 
     listEntityPosition.push({curX, curY});
 
