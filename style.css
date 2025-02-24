@@ -6,6 +6,10 @@ body {
   background-color: #f4f4f4;
 }
 
+h2 {
+  text-decoration: underline;
+}
+
 #newGameButton {
   margin-top: 20px;
 }
@@ -33,4 +37,26 @@ body {
   margin-top: 25px;
   margin-left: 20px;
   color: red;
+}
+
+#classModal {
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  border: 1px solid black;
+  padding: 10px;
+  display: none;
+  text-align: center;
+}
+
+.spacer {
+  height: 40px;
+}
+
+.playerClassChoice {
+  font-size: 1.3em;
+}
+
+#validClassButton {
+  margin-top: 20px;
 }

@@ -11,11 +11,11 @@ let gameFinished = false;
 
 // Création d'une partie au chargement de la page
 let body = document.getElementById("body");
-body.onload = createGrid(gridSize);
+body.onload = showClassChoice();
 
 // Création d'une partie en cliquant sur le bouton "Nouvelle partie"
 let newGameButton = document.getElementById("newGameButton");
-newGameButton.addEventListener("click", () => createGrid(gridSize));
+newGameButton.addEventListener("click", () => showClassChoice());
 
 // Affecte les actions de déplacement au boutons
 let topButton = document.getElementById("topButton");
@@ -26,6 +26,42 @@ let downButton = document.getElementById("downButton");
 downButton.addEventListener("click", () => moveCharacter("DOWN"));
 let rightButton = document.getElementById("rightButton");
 rightButton.addEventListener("click", () => moveCharacter("RIGHT"));
+
+function showClassChoice() {
+  
+  let classModal = document.getElementById("classModal");
+  classModal.style.display = "block";
+
+  // attribuer un onclick event à chaque ligne de classe pour pouvoir faire une sélection
+
+  // quand une classe est sélectionnée, afficher ces stats dans une autre fenêtre à droite de la modal
+  // tente de faire une apparition glissé (gauche vers droite) de la fenêtre si elle est caché
+  // tente de faire une rotation de la fenêtre si elle est visible
+  // exemple: je choisi mage, la fenêtre apparait en glissant de gauche à droite en sortant de derrière la modl
+  // puis je sélectionne le rogue, la fenêtre tourne sur elle-même pour afficher les stats du rogue
+  // ce qui implique une génération des stats dynamique sur chaque face de la div
+
+  
+  let validClassButton = document.getElementById("validClassButton");
+  validClassButton.addEventListener("click", () =>  selectClass());
+
+}
+
+function selectClass() {
+
+  // récupérer la classe sélectionnée par l'utilisateur
+
+  // vérifie qu'une classe est sélectionnée
+
+  // si classe sélectionnée, on avance, sinon on fait rien
+
+  // affecte la classe choisie à l'objet Player
+
+  // cache la modal et la div des stats
+
+  // création de la grid
+
+}
 
 // Fonction de création de la grille du jeu
 function createGrid(pGridSize) {

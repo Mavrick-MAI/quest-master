@@ -22,7 +22,35 @@
     ></script>
   </head>
   <body id="body" class="container">
-    <button id="newGameButton">Nouvelle partie</button>
+    <button id="newGameButton">New game</button>
+
+    <div id="classModal">
+      <h2>Pick a class</h2>
+      <table>
+        <tr class="spacer">
+          <td></td>
+        </tr>
+        <tr class="playerClassChoice">
+          <td><i class="fa-solid fa-book fa-2xl"></i></td>
+          <td>Smart guy</td>
+        </tr>
+        <tr class="spacer">
+          <td></td>
+        </tr>
+        <tr class="playerClassChoice">
+          <td><i class="fa-solid fa-eye-slash fa-2xl"></i></td>
+          <td>Sneaky guy</td>
+        </tr>
+        <tr class="spacer">
+          <td></td>
+        </tr>
+        <tr class="playerClassChoice">
+          <td><i class="fa-solid fa-dumbbell fa-2xl"></i></td>
+          <td>Dumb guy</td>
+        </tr>
+      </table>
+      <button id="validClassButton" class="btn btn-primary">Valid</button>
+    </div>
 
     <div class="row">
       <div class="col-8">
@@ -32,7 +60,9 @@
         <div class="row">
           <div class="col-3"></div>
           <div class="col-3">
-            <button id="topButton"><i class="fa-regular fa-square-caret-up fa-6x"></i></button>
+            <button id="topButton">
+              <i class="fa-regular fa-square-caret-up fa-6x"></i>
+            </button>
           </div>
           <div class="col-3"></div>
         </div>
