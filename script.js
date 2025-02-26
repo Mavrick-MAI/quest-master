@@ -1,4 +1,7 @@
 import Player from "./model/Player.js";
+import Rogue from "./model/Rogue.js";
+import Mage from "./model/Mage.js";
+import Warrior from "./model/Warrior.js";
 
 // Variables
 let grid;
@@ -8,6 +11,10 @@ let gridSize = 10;
 let entityNumber;
 let listEntityPosition;
 let gameFinished = false;
+
+let arrows = document.getElementById("arrows");
+
+let classChoices = document.getElementsByClassName("playerClassChoice");
 
 // Création d'une partie au chargement de la page
 let body = document.getElementById("body");
@@ -28,11 +35,17 @@ let rightButton = document.getElementById("rightButton");
 rightButton.addEventListener("click", () => moveCharacter("RIGHT"));
 
 function showClassChoice() {
-  
+  arrows.style.display = "none";
+
   let classModal = document.getElementById("classModal");
   classModal.style.display = "block";
 
   // attribuer un onclick event à chaque ligne de classe pour pouvoir faire une sélection
+  for (let i = 0; i < classChoices.length; i++) {
+    classChoices[i].addEventListener("click", () =>
+      selectClass(classChoices[i])
+    );
+  }
 
   // quand une classe est sélectionnée, afficher ces stats dans une autre fenêtre à droite de la modal
   // tente de faire une apparition glissé (gauche vers droite) de la fenêtre si elle est caché
@@ -41,26 +54,69 @@ function showClassChoice() {
   // puis je sélectionne le rogue, la fenêtre tourne sur elle-même pour afficher les stats du rogue
   // ce qui implique une génération des stats dynamique sur chaque face de la div
 
-  
   let validClassButton = document.getElementById("validClassButton");
-  validClassButton.addEventListener("click", () =>  selectClass());
-
+  validClassButton.addEventListener("click", () => pickClass());
 }
 
-function selectClass() {
+function selectClass(pClassChoice) {
+  if (!pClassChoice.classList.contains("selected")) {
+    for (let i = 0; i < classChoices.length; i++) {
+      classChoices[i].classList.remove("selected");
+    }
 
+    pClassChoice.classList.add("selected");
+
+    let health;
+    let strength;
+    let dexterity;
+    let intelligence;
+
+    switch (pClassChoice.dataset.class) {
+      case "Rogue":
+        health = Rogue.BASE_HEALTH;
+        strength = Rogue.BASE_STRENGTH;
+        dexterity = Rogue.BASE_DEXTERITY;
+        intelligence = Rogue.BASE_INTELLIGENCE;
+        break;
+      case "Mage":
+        health = Mage.BASE_HEALTH;
+        strength = Mage.BASE_STRENGTH;
+        dexterity = Mage.BASE_DEXTERITY;
+        intelligence = Mage.BASE_INTELLIGENCE;
+        break;
+        case "Warrior":
+          health = Warrior.BASE_HEALTH;
+          strength = Warrior.BASE_STRENGTH;
+          dexterity = Warrior.BASE_DEXTERITY;
+          intelligence = Warrior.BASE_INTELLIGENCE;
+          break;
+    }
+
+    let healthBar = document.getElementById("healthStat");
+    healthBar.style.width = parseInt(health) * 5 + "%";
+    healthBar.title = health + " / 10";
+
+    let strengthBar = document.getElementById("strengthStat");
+    strengthBar.style.width = strength + "0%";
+    strengthBar.title = strength + " / 10";
+
+    let dexterityBar = document.getElementById("dexterityStat");
+    dexterityBar.style.width = dexterity + "0%";
+    dexterityBar.title = dexterity + " / 10";
+
+    let intelligenceBar = document.getElementById("intelligenceStat");
+    intelligenceBar.style.width = intelligence + "0%";
+    intelligenceBar.title = intelligence + " / 10";
+  }
+}
+
+function pickClass() {
   // récupérer la classe sélectionnée par l'utilisateur
-
   // vérifie qu'une classe est sélectionnée
-
   // si classe sélectionnée, on avance, sinon on fait rien
-
   // affecte la classe choisie à l'objet Player
-
   // cache la modal et la div des stats
-
   // création de la grid
-
 }
 
 // Fonction de création de la grille du jeu
@@ -92,18 +148,21 @@ function createGrid(pGridSize) {
       }
 
       // Insertion d'une entité dans la grille
-      if (listEntityPosition.find((item) => item.curX === i && item.curY === j)) {
+      if (
+        listEntityPosition.find((item) => item.curX === i && item.curY === j)
+      ) {
         newCell.innerHTML =
           "<i class='fa-solid fa-exclamation fa-2xl interestIcon'></i>";
       }
       grid.append(newCell);
     }
   }
+
+  arrows.style.display = "block";
 }
 
 // Génération des entités du jeu
 function generateCharacter(pEntityNumber) {
-
   player = new Player(
     Math.floor(Math.random() * 10),
     Math.floor(Math.random() * 10),
@@ -112,22 +171,29 @@ function generateCharacter(pEntityNumber) {
   );
 
   do {
-    treasurePosition = { x : Math.floor(Math.random() * 10), y : Math.floor(Math.random() * 10)}
-  } while ((treasurePosition.x === player.x && treasurePosition.y === player.y))
+    treasurePosition = {
+      x: Math.floor(Math.random() * 10),
+      y: Math.floor(Math.random() * 10),
+    };
+  } while (treasurePosition.x === player.x && treasurePosition.y === player.y);
 
   let curX;
   let curY;
   listEntityPosition = [];
   for (let i = 0; i < pEntityNumber; i++) {
-
     do {
       curX = Math.floor(Math.random() * 10);
       curY = Math.floor(Math.random() * 10);
-    } while ((curX === player.x && curY === player.y) || (curX === treasurePosition.x && curY === treasurePosition.y) || listEntityPosition.find((item) => item.curX === curX && item.curY === curY))
+    } while (
+      (curX === player.x && curY === player.y) ||
+      (curX === treasurePosition.x && curY === treasurePosition.y) ||
+      listEntityPosition.find(
+        (item) => item.curX === curX && item.curY === curY
+      )
+    );
 
-    listEntityPosition.push({curX, curY});
-
-  } 
+    listEntityPosition.push({ curX, curY });
+  }
 }
 
 // Déplacement des entités
@@ -185,12 +251,14 @@ document.addEventListener("keyup", (event) => {
 function checkPlayerCell() {
   let actionHistory = document.getElementById("actionHistory");
 
-  if (listEntityPosition.find((item) => item.curX === player.x && item.curY === player.y)) {
-
-    let isTreasurePosition = Math.floor(Math.random() * (entityNumber) + 1);
+  if (
+    listEntityPosition.find(
+      (item) => item.curX === player.x && item.curY === player.y
+    )
+  ) {
+    let isTreasurePosition = Math.floor(Math.random() * entityNumber + 1);
 
     if (isTreasurePosition === 1) {
-
       let victoryMessage = document.createElement("p");
       victoryMessage.textContent = "VICTORY";
       actionHistory.append(victoryMessage);
@@ -201,7 +269,7 @@ function checkPlayerCell() {
     const index = listEntityPosition.findIndex(
       (item) => item.curX === player.x && item.curY === player.y
     );
-    
+
     if (index !== -1) {
       listEntityPosition.splice(index, 1);
     }
@@ -209,3 +277,10 @@ function checkPlayerCell() {
     entityNumber--;
   }
 }
+
+var tooltipTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});

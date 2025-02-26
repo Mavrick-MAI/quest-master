@@ -1,6 +1,6 @@
 class Character {
 
-    constructor(pX, pY, pHealth, pStrength) {
+    constructor(pX, pY, pHealth, pStrength, pDexterity, pIntelligence, pSkillList) {
 
         if(this.constructor == Character) {
            throw new Error("Class is of abstract type and can't be instantiated");
@@ -10,6 +10,9 @@ class Character {
         this.y = pY;
         this.health = pHealth;
         this.strength = pStrength;
+        this.dexterity = pDexterity;
+        this.intelligence = pIntelligence;
+        this.skillList = pSkillList;
     }
 }
 

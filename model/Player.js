@@ -2,9 +2,13 @@ import Character from './Character.js';
 
 class Player extends Character {
 
-    constructor(pX, pY, pClass, pHealth, pStrength) {
-        super(pX, pY, pHealth, pStrength);
-        this.class = pClass;
+    constructor(pX, pY, pHealth, pStrength, pDexterity, pIntelligence, pSkillList) {
+
+        if(this.constructor == Character) {
+           throw new Error("Class is of abstract type and can't be instantiated");
+        };
+
+        super(pX, pY, pHealth, pStrength, pDexterity, pIntelligence, pSkillList);
     }
 
     move(direction) {

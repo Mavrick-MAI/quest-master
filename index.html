@@ -27,32 +27,104 @@
     <div id="classModal">
       <h2>Pick a class</h2>
       <table>
-        <tr class="spacer">
-          <td></td>
-        </tr>
-        <tr class="playerClassChoice">
+        <tr class="playerClassChoice" data-class="Mage">
           <td><i class="fa-solid fa-book fa-2xl"></i></td>
           <td>Smart guy</td>
         </tr>
-        <tr class="spacer">
-          <td></td>
-        </tr>
-        <tr class="playerClassChoice">
+        <tr class="playerClassChoice" data-class="Rogue">
           <td><i class="fa-solid fa-eye-slash fa-2xl"></i></td>
           <td>Sneaky guy</td>
         </tr>
-        <tr class="spacer">
-          <td></td>
-        </tr>
-        <tr class="playerClassChoice">
+        <tr class="playerClassChoice" data-class="Warrior">
           <td><i class="fa-solid fa-dumbbell fa-2xl"></i></td>
           <td>Dumb guy</td>
         </tr>
       </table>
       <button id="validClassButton" class="btn btn-primary">Valid</button>
     </div>
+    <div id="statModal">
+      <h2>Class stats</h2>
+      <table>
+        <tr>
+          <td>
+            <i
+              class="fa-solid fa-heart fa-xl"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Health. How much damage you can take before dying."
+            ></i>
+          </td>
+          <td>
+            <div class="progress">
+              <div
+                id="healthStat"
+                class="progress-bar bg-danger"
+                role="progressbar"
+              ></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <i
+              class="fa-solid fa-hand-fist fa-xl"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Strength. Affect your health and how much damage you deal with melee attacks."
+            ></i>
+          </td>
+          <td>
+            <div class="progress">
+              <div
+                id="strengthStat"
+                class="progress-bar bg-warning"
+                role="progressbar"
+              ></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <i
+              class="fa-solid fa-person-running fa-xl"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Dexterity. Affect your probability to dodge attacks and how much you deal with bow and dagger attacks."
+            ></i>
+          </td>
+          <td>
+            <div class="progress">
+              <div
+                id="dexterityStat"
+                class="progress-bar bg-success"
+                role="progressbar"
+              ></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <i
+              class="fa-solid fa-flask fa-xl"
+              data-bs-toggle="tooltip"
+              data-bs-placement="top"
+              title="Intelligence. Affect your mana and how much damage you deal with magical attacks."
+            ></i>
+          </td>
+          <td>
+            <div class="progress">
+              <div
+                id="intelligenceStat"
+                class="progress-bar bg-primary"
+                role="progressbar"
+              ></div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
 
-    <div class="row">
+    <div id="arrows" class="row">
       <div class="col-8">
         <div id="grid"></div>
       </div>
