@@ -4,11 +4,11 @@ class Player extends Character {
 
     constructor(pX, pY, pHealth, pStrength, pDexterity, pIntelligence, pSkillList) {
 
+        super(pX, pY, pHealth, pStrength, pDexterity, pIntelligence, pSkillList);
+
         if(this.constructor == Character) {
            throw new Error("Class is of abstract type and can't be instantiated");
         };
-
-        super(pX, pY, pHealth, pStrength, pDexterity, pIntelligence, pSkillList);
     }
 
     move(direction) {

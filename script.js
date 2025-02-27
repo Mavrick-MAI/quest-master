@@ -12,6 +12,7 @@ let entityNumber;
 let listEntityPosition;
 let gameFinished = false;
 
+let gameBoard = document.getElementById("gameBoard");
 let arrows = document.getElementById("arrows");
 
 let classChoices = document.getElementsByClassName("playerClassChoice");
@@ -35,10 +36,14 @@ let rightButton = document.getElementById("rightButton");
 rightButton.addEventListener("click", () => moveCharacter("RIGHT"));
 
 function showClassChoice() {
+  gameBoard.style.display = "none";
   arrows.style.display = "none";
 
   let classModal = document.getElementById("classModal");
   classModal.style.display = "block";
+  
+  let statModal = document.getElementById("statModal");
+  statModal.classList.remove("modalSlide");
 
   // attribuer un onclick event à chaque ligne de classe pour pouvoir faire une sélection
   for (let i = 0; i < classChoices.length; i++) {
@@ -46,13 +51,6 @@ function showClassChoice() {
       selectClass(classChoices[i])
     );
   }
-
-  // quand une classe est sélectionnée, afficher ces stats dans une autre fenêtre à droite de la modal
-  // tente de faire une apparition glissé (gauche vers droite) de la fenêtre si elle est caché
-  // tente de faire une rotation de la fenêtre si elle est visible
-  // exemple: je choisi mage, la fenêtre apparait en glissant de gauche à droite en sortant de derrière la modl
-  // puis je sélectionne le rogue, la fenêtre tourne sur elle-même pour afficher les stats du rogue
-  // ce qui implique une génération des stats dynamique sur chaque face de la div
 
   let validClassButton = document.getElementById("validClassButton");
   validClassButton.addEventListener("click", () => pickClass());
@@ -65,6 +63,12 @@ function selectClass(pClassChoice) {
     }
 
     pClassChoice.classList.add("selected");
+
+    let statModal = document.getElementById("statModal");
+    if (!statModal.classList.contains("modalSlide")) {
+      statModal.classList.add("modalSlide");
+      statModal.style.display = "block";
+    }
 
     let health;
     let strength;
@@ -84,16 +88,16 @@ function selectClass(pClassChoice) {
         dexterity = Mage.BASE_DEXTERITY;
         intelligence = Mage.BASE_INTELLIGENCE;
         break;
-        case "Warrior":
-          health = Warrior.BASE_HEALTH;
-          strength = Warrior.BASE_STRENGTH;
-          dexterity = Warrior.BASE_DEXTERITY;
-          intelligence = Warrior.BASE_INTELLIGENCE;
-          break;
+      case "Warrior":
+        health = Warrior.BASE_HEALTH;
+        strength = Warrior.BASE_STRENGTH;
+        dexterity = Warrior.BASE_DEXTERITY;
+        intelligence = Warrior.BASE_INTELLIGENCE;
+        break;
     }
 
     let healthBar = document.getElementById("healthStat");
-    healthBar.style.width = parseInt(health) * 5 + "%";
+    healthBar.style.width = parseInt(health) * 2 + "%";
     healthBar.title = health + " / 10";
 
     let strengthBar = document.getElementById("strengthStat");
@@ -111,16 +115,28 @@ function selectClass(pClassChoice) {
 }
 
 function pickClass() {
-  // récupérer la classe sélectionnée par l'utilisateur
-  // vérifie qu'une classe est sélectionnée
-  // si classe sélectionnée, on avance, sinon on fait rien
-  // affecte la classe choisie à l'objet Player
-  // cache la modal et la div des stats
-  // création de la grid
+  let playerClassChoice = "";
+  for (let i = 0; i < classChoices.length; i++) {
+    if (classChoices[i].classList.contains("selected")) {
+      playerClassChoice = classChoices[i].dataset.class;
+    }
+  }
+
+  if (playerClassChoice != "") {
+
+    let classModal = document.getElementById("classModal");
+    classModal.style.display = "none";
+
+    let statModal = document.getElementById("statModal");
+    statModal.style.display = "none";
+  
+    createGrid(gridSize, playerClassChoice);
+
+  }
 }
 
 // Fonction de création de la grille du jeu
-function createGrid(pGridSize) {
+function createGrid(pGridSize, pPlayerClassChoice) {
   gameFinished = false;
 
   // Vide la grille si elle existe déjà
@@ -131,7 +147,7 @@ function createGrid(pGridSize) {
 
   // Génére les entités de la partie
   entityNumber = Math.floor(Math.random() * (50 - 10) + 10);
-  generateCharacter(entityNumber);
+  generateCharacter(pPlayerClassChoice, entityNumber);
 
   // Création de la grille
   let newCell;
@@ -158,17 +174,24 @@ function createGrid(pGridSize) {
     }
   }
 
+  gameBoard.style.display = "block";
   arrows.style.display = "block";
 }
 
 // Génération des entités du jeu
-function generateCharacter(pEntityNumber) {
-  player = new Player(
-    Math.floor(Math.random() * 10),
-    Math.floor(Math.random() * 10),
-    20,
-    5
-  );
+function generateCharacter(pPlayerClassChoice, pEntityNumber) {
+
+  switch (pPlayerClassChoice) {
+    case "Rogue":
+      player = new Rogue(Math.floor(Math.random() * 10), Math.floor(Math.random() * 10));
+      break;
+    case "Mage":
+      player = new Mage(Math.floor(Math.random() * 10), Math.floor(Math.random() * 10));
+      break;
+    case "Warrior":
+      player = new Warrior(Math.floor(Math.random() * 10), Math.floor(Math.random() * 10));
+      break;
+  }
 
   do {
     treasurePosition = {
